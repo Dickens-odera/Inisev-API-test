@@ -1,5 +1,5 @@
 ## Inisev API test
-<p> This is a simple API meant to enable users to subscribe to some website and thereafter shall be receiving emil notifications of the of the newly created publications </p>
+<p> This is a simple API meant to enable users to subscribe to some website and thereafter shall be receiving email notifications of the of the newly created publications </p>
 
 ### Installation
 ```php
