@@ -27,10 +27,7 @@ class PostAction
     {
         try{
             $newPost = Post::create(array_merge($request->validated(),['slug' => Str::slug($request->title,'-')]));
-            if($newPost){
                 return $this->commonApiResponse(true,'Post Crated Successfully',new PostResource($newPost),Response::HTTP_CREATED);
-            }
-            return $this->commonApiResponse(false,'Failed to create post','', Response::HTTP_NOT_IMPLEMENTED);
         }catch (QueryException $queryException){
             Log::critical('Failed to create new post: ERROR: '.$queryException->errorInfo[2]);
             return $this->commonApiResponse(false,'Something went wrong creating new post','', Response::HTTP_UNPROCESSABLE_ENTITY);
