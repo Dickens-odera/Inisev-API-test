@@ -30,3 +30,8 @@ php artisan scribe:generate
 php artisan serve
 ```
 Then head over to **localhost:8000/docs** for the API testing environment on your browser
+### Command to send email notifications to subscribers after adding a couple of subscribers
+```php
+php artisan subscribers:mail {domain}
+```
+

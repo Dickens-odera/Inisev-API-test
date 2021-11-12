@@ -5,10 +5,8 @@ namespace App\Console\Commands;
 use App\Events\PostPublished;
 use App\Models\Post;
 use App\Models\Website;
-use App\Notifications\NewPostPublished;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Notification;
 
 class sendSubscriptionNotification extends Command
 {
