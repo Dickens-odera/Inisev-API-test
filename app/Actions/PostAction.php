@@ -36,20 +36,25 @@ class PostAction
             $newPost = Post::create(array_merge($request->validated(),['slug' => Str::slug($request->title,'-')]));
             $subscribers = Subscriber::where(function(Builder $query) use($newPost){
                 $query->where('website_id',$newPost->website_id);
+            })->get()->filter(function($subscriber){
+                return $subscriber->email !== null;
             });
             foreach ($subscribers as $subscriber){
                 $website = Website::where(function (Builder $query) use($subscriber){
                     $query->where('id',$subscriber->website_id);
                 })->first();
-                PostPublished::dispatch($website, $newPost);
+                Artisan::call('subscribers:mail',[
+                    'website' => $website,
+                    '--queue' => 'default'
+                ]);
             }
             return $this->commonApiResponse(true,'Post Created Successfully',new PostResource($newPost),Response::HTTP_CREATED);
         }catch (QueryException $queryException){
             Log::critical('Failed to create new post: ERROR: '.$queryException->errorInfo[2]);
             return $this->commonApiResponse(false,'Something went wrong creating new post','', Response::HTTP_UNPROCESSABLE_ENTITY);
         }catch (Exception $exception){
-            Log::critical('Failed to create post: ERROR: '.$exception->getTraceAsString());
-            return $this->commonApiResponse(false,'Something went wrong creating post','', Response::HTTP_INTERNAL_SERVER_ERROR);
+            Log::critical('Failed to create post: ERROR: '.$exception->getTraceAsString()); //Something went wrong creating post
+            return $this->commonApiResponse(false,$exception->getMessage(),'', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

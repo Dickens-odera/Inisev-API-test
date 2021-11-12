@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Events\PostPublished;
+use App\Models\Post;
 use App\Models\Website;
 use App\Notifications\NewPostPublished;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Notification;
 
 class sendSubscriptionNotification extends Command
 {
@@ -40,29 +43,15 @@ class sendSubscriptionNotification extends Command
      *
      * @return void
      */
-    public function handle(): void
+    public function handle()
     {
-        $postData = [];
-        $websites = Website::with('posts','subscribers')->where(function(Builder $query){
-            $query->where('domain',$this->argument('website'));
-        })->get()->filter(function($website){
-            return $website->domain !== null;
-        });
-
+        $websites =  Website::with('subscribers','posts')->where('domain',$this->argument('website'))->get();
         foreach ($websites as $website){
-            foreach($website->posts as $post){
-                $postData[] = [
-                    'title' => $post->title,
-                    'description' => $post->description
-                ];
-            }
-            foreach($website->subscribers as $subscriber){
-                $data = array_merge($postData,['name' => $subscriber->first_name]);
-                if($subscriber->notify(new NewPostPublished($data))){
-                    $this->info('Notifications sent successfully');
-                }else{
-                    $this->info('Failed to send notification');
-                }
+            $posts = Post::where(function(Builder $query) use($website){
+                $query->where('website_id', $website->first()->id);
+            })->get();
+            foreach($posts as $post){
+                PostPublished::dispatch($website, $post);
             }
         }
     }
