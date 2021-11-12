@@ -29,4 +29,4 @@ php artisan scribe:generate
 ```php
 php artisan serve
 ```
-The head over to **localhost:8000/docs** for the API testing environment on your browser
+Then head over to **localhost:8000/docs** for the API testing environment on your browser
