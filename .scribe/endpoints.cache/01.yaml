@@ -22,19 +22,19 @@ endpoints:
         name: title
         description: '. The Post Title'
         required: true
-        example: labore
+        example: iure
         type: string
       description:
         name: description
         description: '. The Post Description'
         required: true
-        example: omnis
+        example: et
         type: string
       website_id:
         name: website_id
         description: '. The Website ID'
         required: true
-        example: 11
+        example: 20
         type: integer
     responses: []
     responseFields: []

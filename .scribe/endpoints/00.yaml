@@ -20,25 +20,25 @@ endpoints:
         name: first_name
         description: '. The First Name of the User'
         required: true
-        example: optio
+        example: eaque
         type: string
       last_name:
         name: last_name
         description: '. The Last Name of the User'
         required: true
-        example: qui
+        example: consequatur
         type: string
       email:
         name: email
         description: '. The email address of the User'
         required: true
-        example: eos
+        example: commodi
         type: email
       website_id:
         name: website_id
         description: '. The website id this user is subscribing to'
         required: true
-        example: 14
+        example: 4
         type: integer
     responses: []
     responseFields: []
