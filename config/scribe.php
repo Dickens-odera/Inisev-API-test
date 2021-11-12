@@ -9,17 +9,17 @@ return [
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
      */
-    'title' => null,
+    'title' => 'Inisev Subscription API',
 
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
-    'description' => '',
+    'description' => 'The API endpoints serving Inisev\'s  user website subscription platform.',
 
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => null,
+    'base_url' => env('APP_URL'),
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -75,6 +75,7 @@ return [
                 'headers' => [
                     'Content-Type' => 'application/json',
                     'Accept' => 'application/json',
+                    'Access-Control-Allow-Origin' => '*',
                 ],
 
                 /*
@@ -138,7 +139,7 @@ return [
      * - "static" will generate a static HTMl page in the /public/docs folder,
      * - "laravel" will generate the documentation as a Blade view, so you can add routing and authentication.
      */
-    'type' => 'static',
+    'type' => 'laravel',
 
     /*
      * Settings for `static` type output.
@@ -263,6 +264,7 @@ INTRO
     'example_languages' => [
         'bash',
         'javascript',
+        'php',
     ],
 
     /*
@@ -315,6 +317,10 @@ INTRO
      */
     'logo' => false,
 
+    /*
+    * The router your API is using (Laravel or Dingo).
+    */
+    'router' => 'laravel',
     /*
      * If you would like the package to generate the same example values for parameters on each run,
      * set this to any number (eg. 1234)
