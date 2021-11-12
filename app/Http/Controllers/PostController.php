@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\PostAction;
 use App\Http\Requests\PostRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 /**
  * Class PostController
@@ -15,7 +14,7 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
-     * Create Post
+     * Publish Post
      *
      * @param PostRequest $request
      * @param PostAction $postAction

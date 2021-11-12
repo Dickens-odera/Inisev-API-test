@@ -1,0 +1,38 @@
+name: Posts
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/posts
+    metadata:
+      title: 'Publish Post'
+      description: ''
+      authenticated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Access-Control-Allow-Origin: '*'
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: '. The Post Title'
+        required: true
+        example: labore
+        type: string
+      description:
+        name: description
+        description: '. The Post Description'
+        required: true
+        example: omnis
+        type: string
+      website_id:
+        name: website_id
+        description: '. The Website ID'
+        required: true
+        example: 11
+        type: integer
+    responses: []
+    responseFields: []

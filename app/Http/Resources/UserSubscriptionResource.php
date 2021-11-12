@@ -5,9 +5,8 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\WebsiteResource;
 
-class PostResource extends JsonResource
+class UserSubscriptionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +18,9 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
+            'first_name' => $this->first_name,
+            'last_name'  => $this->last_name,
+            'email' => $this->email,
             'website_id' => $this->website_id,
             'website' => new WebsiteResource($this->website),
             'createdAd' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),

@@ -1,12 +1,12 @@
-name: Posts
+name: 'User Subscription'
 description: ''
 endpoints:
   -
     httpMethods:
       - POST
-    uri: api/posts
+    uri: api/subscriptions
     metadata:
-      title: 'Create Post'
+      title: 'Subscribe A User To A Website'
       description: ''
       authenticated: false
     headers:
@@ -16,23 +16,29 @@ endpoints:
     urlParameters: []
     queryParameters: []
     bodyParameters:
-      title:
-        name: title
-        description: '. The Post Title'
+      first_name:
+        name: first_name
+        description: '. The First Name of the User'
         required: true
-        example: veniam
+        example: optio
         type: string
-      description:
-        name: description
-        description: '. The Post Description'
+      last_name:
+        name: last_name
+        description: '. The Last Name of the User'
         required: true
-        example: iure
+        example: qui
         type: string
+      email:
+        name: email
+        description: '. The email address of the User'
+        required: true
+        example: eos
+        type: email
       website_id:
         name: website_id
-        description: '. The Website ID'
+        description: '. The website id this user is subscribing to'
         required: true
-        example: 9
+        example: 14
         type: integer
     responses: []
     responseFields: []
