@@ -4,6 +4,7 @@ namespace App\Events;
 
 use App\Models\Post;
 use App\Models\Subscriber;
+use App\Models\Website;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -17,15 +18,15 @@ class PostPublished
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $post;
-    public $subscriber;
+    public $website;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Subscriber $subscriber, Post $post)
+    public function __construct(Website $website, Post $post)
     {
-        $this->subscriber = $subscriber;
+        $this->website = $website;
         $this->post = $post;
     }
 

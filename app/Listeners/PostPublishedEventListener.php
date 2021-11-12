@@ -26,7 +26,7 @@ class PostPublishedEventListener implements ShouldQueue
     public function handle($event)
     {
         Artisan::call('subscribers:mail',[
-            'subscriber' => $event->subscriber->email,
+            'website' => $event->website,
             '--queue' => 'default'
         ]);
     }

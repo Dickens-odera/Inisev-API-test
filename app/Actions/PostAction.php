@@ -15,6 +15,7 @@ use App\Traits\CommonApiResponse;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +38,10 @@ class PostAction
                 $query->where('website_id',$newPost->website_id);
             });
             foreach ($subscribers as $subscriber){
-                PostPublished::dispatch($subscriber, $newPost);
+                $website = Website::where(function (Builder $query) use($subscriber){
+                    $query->where('id',$subscriber->website_id);
+                })->first();
+                PostPublished::dispatch($website, $newPost);
             }
             return $this->commonApiResponse(true,'Post Created Successfully',new PostResource($newPost),Response::HTTP_CREATED);
         }catch (QueryException $queryException){

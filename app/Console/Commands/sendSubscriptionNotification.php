@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Post;
-use App\Models\Subscriber;
+use App\Models\Website;
 use App\Notifications\NewPostPublished;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
@@ -17,7 +16,7 @@ class sendSubscriptionNotification extends Command
      *
      * @var string
      */
-    protected $signature = 'subscribers:mail {subscriber} {--queue}';
+    protected $signature = 'subscribers:mail {website} {--queue}';
 
     /**
      * The console command description.
@@ -39,19 +38,32 @@ class sendSubscriptionNotification extends Command
     /**
      * Execute the console command.
      *
-     * @param Subscriber $subscriber
-     * @param Post $post
      * @return void
      */
-    public function handle(Subscriber $subscriber, Post $post): void
+    public function handle(): void
     {
-        $postData = [
-            'name' => $subscriber->first_name,
-            'title' => $post->title,
-            'description' => $post->description
-        ];
+        $postData = [];
+        $websites = Website::with('posts','subscribers')->where(function(Builder $query){
+            $query->where('domain',$this->argument('website'));
+        })->get()->filter(function($website){
+            return $website->domain !== null;
+        });
 
-        $subscriber->notify(new NewPostPublished($postData));
-        $this->info('Notification sent successfully');
+        foreach ($websites as $website){
+            foreach($website->posts as $post){
+                $postData[] = [
+                    'title' => $post->title,
+                    'description' => $post->description
+                ];
+            }
+            foreach($website->subscribers as $subscriber){
+                $data = array_merge($postData,['name' => $subscriber->first_name]);
+                if($subscriber->notify(new NewPostPublished($data))){
+                    $this->info('Notifications sent successfully');
+                }else{
+                    $this->info('Failed to send notification');
+                }
+            }
+        }
     }
 }

@@ -31,4 +31,12 @@ class Website extends Model
     {
         return $this->hasMany(Subscriber::class,'id','website_id');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function posts():HasMany
+    {
+        return $this->hasMany(Post::class,'id','website_id');
+    }
 }
